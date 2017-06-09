@@ -22,3 +22,15 @@ Hidden from view, when you go to the page for the first time, the server is quer
 * PureCss
 * PostGreSQL
 * Open Trivia Database
+
+Please see [This readme](client/README.md) for client overview.
+
+The server is fairly simple and handled in index.js.  The client is served statically through  The endpoints are as follows:
+
+* /api/users POST -- create a user.
+* /api/users/:id GET -- get a user.
+* /api/users/:id PUT -- update a user.
+
+Updates are sent as objects that contain the user's entire score.  Getting the user information returns the entire set of scores in an object.  This behavior is acceptable to us because the quiz validation runs client-side.
+
+Server start and close is handled by the start and close server functions, routing everything through Express.

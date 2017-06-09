@@ -18,7 +18,7 @@
     "server/node_modules",
     "client/node_modules"
   ],
-  "author": "Joe Turner <jturner@thinkful.com>",
+  "author": "Zach Williams <saumanahaii@gmail.com>, TaChyla Murray, Donald Dobbin, Joe Turner <jturner@thinkful.com>",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.17.2",
