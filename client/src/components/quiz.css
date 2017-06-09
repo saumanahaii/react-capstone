@@ -1,3 +1,8 @@
+h2{
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
 .green {
     background-color:#CEE8B3;
     box-shadow: inset 5px -10px 10px #aEc893;
@@ -17,4 +22,3 @@
 .light-green {
     background-color: #EBF2E4;
 }
-

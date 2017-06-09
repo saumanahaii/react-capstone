@@ -1,25 +1,35 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Velocity from "velocity-animate";
+import  'velocity-ui-pack';
 
 export class UserHistory extends React.Component {
-    constructor (props) {
-        super(props);
-    }
 
-render() {
+  componentDidMount(){
+    Velocity(document.getElementById("resultHolder"),"transition.fadeIn",{stagger: 50});
+  }
+
+  componentWillLeave(callback){
+    return Velocity(document.getElementById("resultItem"),"transition.slideDownOut",{stagger: 50}).then(callback);
+  }
+
+  component
+
+  render() {
     console.log('rendered!!');
-const results = Object.keys(this.props.scoreTotals).map((item, index) => {
-            let quizPercentage = this.props.scoreTotals[item][0] / this.props.scoreTotals[item][1];
-            return  <div key={index} className='resultItem'>
-                    <h2>{item}</h2>
-                    <p><b>{(quizPercentage * 100).toFixed(0) }%</b> or <b>{this.props.scoreTotals[item][0]}/{this.props.scoreTotals[item][1]}</b> questions</p>                    
-                </div>
-            });
+    const results = Object.keys(this.props.scoreTotals).map((item, index) => {
+      let quizPercentage = this.props.scoreTotals[item][0] / this.props.scoreTotals[item][1];
+      return<div className='resultItem' key={index}>
+              <h2>{item}</h2>
+              <p><b>{(quizPercentage * 100).toFixed(0) }%</b> or <b>{this.props.scoreTotals[item][0]}/{this.props.scoreTotals[item][1]}</b> questions</p>
+            </div>
+    });
 
 return (
-    <div>
-        {results}
+    <div id="resultHolder">
+      {results}
     </div>
+
 )
     }
 }

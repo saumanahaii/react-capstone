@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
 import './App.css';
 import { connect } from "react-redux";
-
-
 import Quiz from './components/quiz.js';
-
 import Header from './components/header.js';
-
 import { setUserData } from "./actions/action";
-
 import $ from 'jquery';
 
 class App extends Component {
-
 //makes a get request to the database if the cookie exists to set the User Data History in the state.
   componentDidMount(){
     $('.score-container').hide();
     let cookieIdexists = false;
-    let cookieId = document.cookie.split(';').map((val) => {
+    document.cookie.split(';').map((val) => {
       return val.split('=');
     }).forEach(val => {
       if(val[0] === 'id') {
@@ -40,7 +33,7 @@ class App extends Component {
 
 // If cookie doesn't exists, create a user in the database. Then set the state like above.
     let expiry = new Date();
-    expiry.setTime(Date.now()+(365*24*60*60*1000)); 
+    expiry.setTime(Date.now()+(365*24*60*60*1000));
     expiry = expiry.toGMTString();
     if(!cookieIdexists) {
       return fetch('/api/users', {
@@ -66,6 +59,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <div id="fullScreenEffects"></div>
        <Header />
        <Quiz />
       </div>

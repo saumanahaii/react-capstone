@@ -1,9 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
-import { selectAnswer, submitQuiz } from "../actions/action";
+import {connect} from "react-redux";
+import {selectAnswer, submitQuiz} from "../actions/action";
 import $ from 'jquery';
 import './quiz.css';
-import { _ } from "underscore";
+import {_} from "underscore";
+import "velocity-animate";
+import "velocity-ui-pack";
+import {VelocityTransitionGroup} from "velocity-react"
 
 export class Quiz extends React.Component {
   constructor(props) {
@@ -29,19 +32,26 @@ export class Quiz extends React.Component {
     this.props.dispatch(submitQuiz());
     $('.score-container').show();
     $('.submit-button').hide();
-};
+  };
+
+  //Parse strings so that special characters properly appear.
+  cleanStrings(str){
+    let parsedStr = str;
+    parsedStr = parsedStr.replace(/(&quot;)/g,"\"");
+    parsedStr = parsedStr.replace(/(&rdquo;)/g,"\"");
+    parsedStr = parsedStr.replace(/(&#039;)/g,"'");
+    parsedStr = parsedStr.replace(/(&ldquo;)/g,"\"");
+    parsedStr = parsedStr.replace(/(&amp;)/g,"&");
+    parsedStr = parsedStr.replace(/(&shy;)/g,"-");
+    parsedStr = parsedStr.replace(/(Pok&eacute;)/g,"Poke");
+    return parsedStr;
+  }
 
 render() {
     let questions = this.props.questions.map((question, index) => {
 //parse out the annoying strings from the API
-      let parsedQuestion = question.question;
-      parsedQuestion = parsedQuestion.replace(/(&quot\;)/g,"\"")
-      parsedQuestion = parsedQuestion.replace(/(&rdquo\;)/g,"\"")
-      parsedQuestion = parsedQuestion.replace(/(&#039;)/g,"\'")
-      parsedQuestion = parsedQuestion.replace(/(&ldquo;)/g,"\"")
-      parsedQuestion = parsedQuestion.replace(/(&amp;)/g,"\&")
-      parsedQuestion = parsedQuestion.replace(/(&shy;)/g,"\-")
-      parsedQuestion = parsedQuestion.replace(/(Pok&eacute;)/g,"\Poke")
+      let parsedQuestion = this.cleanStrings(question.question);
+
 // sets the background color to green or red depending on correct or incorrect.
       let color = "";
       if(this.props.checkAnswerArray.length > 0) {
@@ -52,27 +62,23 @@ render() {
           color = 'light-red';
         }
       }
-      const choices = this.props.questions[index].choices.map((choice, index2) => {
-//parse out the annoying strings from the API        
-        let parsedChoice = choice;
-        parsedChoice = parsedChoice.replace(/(&quot\;)/g,"\"")
-        parsedChoice =parsedChoice.replace(/(&rdquo\;)/g,"\"")
-        parsedChoice = parsedChoice.replace(/(&#039;)/g,"\'")
-        parsedChoice = parsedChoice.replace(/(&ldquo;)/g,"\"")
-        parsedChoice = parsedChoice.replace(/(&amp;)/g,"\&")
-        parsedChoice = parsedChoice.replace(/(&shy;)/g,"\-")
-        parsedChoice = parsedChoice.replace(/(Pok&eacute;)/g,"\Poke")
 
-// sets the background color to green or red depending on correct or incorrect.
+      //the choices that appear under the question.
+      //Button color is either blank, which is unanswered,
+      //red, which is wrong, or green, which is right.
+      const choices = this.props.questions[index].choices.map((choice, index2) => {
+        //parse out the annoying strings from the API
+        let parsedChoice = this.cleanStrings(choice);
+        // sets the background color to green or red depending on correct or incorrect.
         let buttonColor = "";
-          if(this.props.checkAnswerArray.length > 0) {
-            if(choice === this.props.scoreTracker[index]) {
-              buttonColor = 'red';
-            }
-            if (choice === this.props.scoreKeys[index]) {
-              buttonColor = 'green';
-            }
+        if(this.props.checkAnswerArray.length > 0) {
+          if(choice === this.props.scoreTracker[index]) {
+            buttonColor = 'red';
           }
+          if (choice === this.props.scoreKeys[index]) {
+            buttonColor = 'green';
+          }
+        }
 
         return (
           <button
@@ -98,21 +104,24 @@ render() {
       button = <button className='submit-button pure-button' onClick={this.handleSubmit}>Submit</button>;
     }
     if(!questions.length > 0){
-      questions = <h2>Please pick a quiz!</h2>
+      questions = <h2>Click a Category to take a quiz. Click a button to view your history, if you have some.</h2>
     }
     return (
       <div>
 
         <ul id="questionList">
-          {questions}
+          <VelocityTransitionGroup enter ={{animation: "fadeIn", duration: 150, stagger: 150}}>
+            {questions}
+          </VelocityTransitionGroup>
           <li>
             <div className='score-container'><h2>Your Score:{this.props.score}0%</h2></div>
           </li>
         </ul>
-        {button}
+        <VelocityTransitionGroup enter ={{animation: "fadeIn", duration: 250, delay: 2500}} leave={{animation: "fadeOut"}}>
+          {button}
+        </VelocityTransitionGroup>
 
       </div>
-
     );
   }
 }
