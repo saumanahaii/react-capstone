@@ -3,6 +3,7 @@ import './App.css';
 import { connect } from "react-redux";
 import Quiz from './components/quiz.js';
 import Header from './components/header.js';
+import Footer from './components/footer.js';
 import { setUserData } from "./actions/action";
 import $ from 'jquery';
 
@@ -61,6 +62,7 @@ class App extends Component {
         <div id="fullScreenEffects"></div>
        <Header />
        <Quiz />
+       <Footer />
       </div>
     );
   }

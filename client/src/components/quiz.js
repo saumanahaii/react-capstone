@@ -110,14 +110,14 @@ render() {
       <div>
 
         <ul id="questionList">
-          <VelocityTransitionGroup enter ={{animation: "fadeIn", duration: 150, stagger: 150}}>
+          <VelocityTransitionGroup enter={{animation: "fadeIn", duration: 150, stagger: 150}}>
             {questions}
           </VelocityTransitionGroup>
           <li>
             <div className='score-container'><h2>Your Score:{this.props.score}0%</h2></div>
           </li>
         </ul>
-        <VelocityTransitionGroup enter ={{animation: "fadeIn", duration: 250, delay: 2500}} leave={{animation: "fadeOut"}}>
+        <VelocityTransitionGroup enter={{animation: "fadeIn", duration: 250, delay: 2500}} leave={{animation: "fadeOut"}}>
           {button}
         </VelocityTransitionGroup>
 
