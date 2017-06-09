@@ -33,6 +33,7 @@
     "redux-thunk": "^2.2.0",
     "underscore": "^1.8.3",
     "velocity-animate": "^1.5.0",
+    "velocity-ui-pack": "^1.2.2",
     "xp": "^1.0.1"
   }
 }
